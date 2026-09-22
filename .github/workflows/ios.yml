@@ -1,0 +1,64 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      # 1. 소스코드 체크아웃
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js 환경 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      # 3. Xcode 경로 지정
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      # 4. 의존성 패키지 설치
+      - name: Install Dependencies
+        run: npm ci
+
+      # 5. 웹 앱 빌드
+      - name: Build Web App
+        run: npm run build
+
+      # 6. Capacitor iOS 동기화
+      - name: Sync Capacitor iOS
+        run: npx cap sync ios
+
+      # 7. iOS Xcode 빌드 (xcodeproj 또는 xcworkspace 자동 판별 후 빌드)
+      - name: Build iOS App (Simulator Debug)
+        run: |
+          if [ -d "ios/App/App.xcworkspace" ]; then
+            echo "Building with Workspace..."
+            xcodebuild -workspace ios/App/App.xcworkspace \
+                       -scheme App \
+                       -sdk iphonesimulator \
+                       -configuration Debug \
+                       -derivedDataPath build
+          else
+            echo "Building with Project (SPM/Native)..."
+            xcodebuild -project ios/App/App.xcodeproj \
+                       -scheme App \
+                       -sdk iphonesimulator \
+                       -configuration Debug \
+                       -derivedDataPath build
+          fi
+
+      # 8. 빌드된 .app 파일의 위치를 자동으로 찾아 안전하게 업로드
+      - name: Upload iOS App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-debug-app
+          path: build/Build/Products/Debug-iphonesimulator/*.app   
