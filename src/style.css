@@ -1,0 +1,234 @@
+/* 전역 스타일 및 초기화 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* 계산기 프레임 설정 (기존 340x480 비율 및 색상 유지) */
+.calculator-card {
+  width: 340px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 디스플레이 입력창 */
+.calculator-display {
+  width: 100%;
+  height: 50px;
+  font-size: 22px;
+  text-align: right;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  background-color: #fafafa;
+  color: #000000;
+  padding: 0 12px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.calculator-display:focus {
+  border-color: #007bff;
+}
+
+/* 그리드 레이아웃 */
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+/* 버튼 공통 및 테마별 색상 */
+.btn {
+  height: 42px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-clear {
+  background-color: #ff6b6b;
+  color: #ffffff;
+}
+
+.btn-clear:hover {
+  background-color: #fa5252;
+}
+
+.btn-neutral {
+  background-color: #e9ecef;
+  color: #000000;
+}
+
+.btn-neutral:hover {
+  background-color: #dee2e6;
+}
+
+.btn-operator {
+  background-color: #ffc107;
+  color: #ffffff;
+}
+
+.btn-operator:hover {
+  background-color: #e0a800;
+}
+
+.btn-equal {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.btn-equal:hover {
+  background-color: #218838;
+}
+
+/* 기록 관리 버튼 */
+.btn-history {
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #6c757d;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-history:hover {
+  background-color: #5a6268;
+}
+
+/* 모달 스타일 (메인 창 중앙에 70% 비율로 배치) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  width: 238px;  /* 340px의 70% */
+  height: 336px; /* 480px의 70% */
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+/* 리스트박스 영역 */
+.listbox-container {
+  flex: 1;
+  margin-bottom: 6px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.history-listbox {
+  list-style: none;
+  outline: none;
+}
+
+.history-listbox li {
+  padding: 6px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-listbox li:last-child {
+  border-bottom: none;
+}
+
+.history-listbox li.selected {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+/* 모달 버튼 스타일 */
+.modal-btn-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.btn-modal {
+  font-size: 11px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-modal:hover {
+  opacity: 0.9;
+}
+
+.modal-btn-row .btn-modal {
+  flex: 1;
+  height: 28px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.btn-warning {
+  width: 100%;
+  height: 26px;
+  background-color: #ff4d4d;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 26px;
+  background-color: #cccccc;
+  color: #000000;
+}
